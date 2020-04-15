@@ -602,7 +602,6 @@ export default {
         type: ''
       },
       isActive: true,
-      waIsActive: true,
       isEdit: false
     }
   },
@@ -656,7 +655,6 @@ export default {
     },
     handleClose () {
       this.drawer = false
-      this.isActive = true
       this.isEdit = false
       this.inputForm = {}
     },
@@ -670,16 +668,6 @@ export default {
         this.isActive = false
       }
     },
-    waClick (val) {
-      let dv = document.getElementById(val)
-      if (dv.className === 'show') {
-        dv.removeAttribute('class')
-        this.waIsActive = true
-      } else {
-        dv.setAttribute('class', 'show')
-        this.waIsActive = false
-      }
-    },
     load () { },
     editClick () {
       this.isEdit = true
@@ -690,7 +678,6 @@ export default {
     callClick () {
       this.inputForm.scsj = commom.formatTime(this.inputForm.scsj).replace(/^\s+|\s+$/g, '')
       this.inputForm.pfsj = commom.formatDate(this.inputForm.pfsj).replace(/^\s+|\s+$/g, '')
-      console.log(this.inputForm.wacgrq)
       this.$axios({
         url: `/cmdb/resource/update`,
         method: 'post',
@@ -700,7 +687,6 @@ export default {
         if (data && data.success) {
           this.$emit('refreshResouceList')
           this.drawer = false
-          this.isActive = true
           this.isEdit = false
           this.inputForm = {}
         }
@@ -708,7 +694,6 @@ export default {
     },
     closeClick () {
       this.drawer = false
-      this.isActive = true
       this.isEdit = false
       this.inputForm = {}
     }
@@ -754,14 +739,6 @@ export default {
 .show {
   display: none;
 }
-p {
-  padding: 0px;
-  margin: 0px;
-  font-size: 14px;
-  color: #606266;
-  line-height: 40px;
-  padding: 0 12px 0 0;
-}
 .btnav {
   position: fixed;
   height: 60px;
@@ -776,8 +753,5 @@ p {
 }
 .btnav button {
   margin: -10px 30px;
-}
-.el-col {
-  margin-bottom: -20px;
 }
 </style>

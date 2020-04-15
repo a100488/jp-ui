@@ -124,12 +124,12 @@
             <div slot="header"
                  class="clearfix">
               <span>设备信息</span>
-              <i @click="actClick('tres')"
+              <i @click="waClick('info')"
                  class="el-collapse-item__arrow el-icon-arrow-right"
-                 :class="{'is-active':isActive}"
+                 :class="{'is-active':waIsActive}"
                  style="float: right; padding: 3px 0"></i>
             </div>
-            <div id="tres">
+            <div id="info">
               <el-col :span="8">
                 <el-form-item label="设备厂商:"
                               prop="wasbcs"
@@ -210,12 +210,12 @@
             <div slot="header"
                  class="clearfix">
               <span>配置信息</span>
-              <i @click="actClick('tres')"
+              <i @click="deployClick('deploy')"
                  class="el-collapse-item__arrow el-icon-arrow-right"
-                 :class="{'is-active':isActive}"
+                 :class="{'is-active':deploy}"
                  style="float: right; padding: 3px 0"></i>
             </div>
-            <div id="tres">
+            <div id="deploy">
               <el-row :gutter="15">
                 <el-col :span="8">
                   <el-form-item label="IP地址:"
@@ -298,12 +298,12 @@
             <div slot="header"
                  class="clearfix">
               <span>位置信息</span>
-              <i @click="actClick('tres')"
+              <i @click="placeClick('place')"
                  class="el-collapse-item__arrow el-icon-arrow-right"
-                 :class="{'is-active':isActive}"
+                 :class="{'is-active':place}"
                  style="float: right; padding: 3px 0"></i>
             </div>
-            <div id="tres">
+            <div id="place">
               <el-row :gutter="15">
                 <el-col :span="8">
                   <el-form-item label="机房机柜关系:"
@@ -354,12 +354,12 @@
             <div slot="header"
                  class="clearfix">
               <span>维保信息</span>
-              <i @click="waClick('wa')"
+              <i @click="wbClick('wb')"
                  class="el-collapse-item__arrow el-icon-arrow-right"
-                 :class="{'is-active':waIsActive}"
+                 :class="{'is-active':wb}"
                  style="float: right; padding: 3px 0"></i>
             </div>
-            <div id="wa">
+            <div id="wb">
               <el-row :gutter="15">
                 <el-col :span="8">
                   <el-form-item label="生命周期状态:"
@@ -541,12 +541,12 @@
             <div slot="header"
                  class="clearfix">
               <span>设备信息</span>
-              <i @click="actClick('tres')"
+              <i @click="waClick('info')"
                  class="el-collapse-item__arrow el-icon-arrow-right"
                  :class="{'is-active':isActive}"
                  style="float: right; padding: 3px 0"></i>
             </div>
-            <div id="tres">
+            <div id="info">
               <el-row :gutter="15">
                 <el-col :span="8">
                   <el-form-item prop="wasbcs"
@@ -644,12 +644,12 @@
             <div slot="header"
                  class="clearfix">
               <span>配置信息</span>
-              <i @click="actClick('tres')"
+              <i @click="deployClick('deploy')"
                  class="el-collapse-item__arrow el-icon-arrow-right"
                  :class="{'is-active':isActive}"
                  style="float: right; padding: 3px 0"></i>
             </div>
-            <div id="tres">
+            <div id="deploy">
               <el-row :gutter="15">
                 <el-col :span="8">
                   <el-form-item label="IP地址:"
@@ -765,12 +765,12 @@
             <div slot="header"
                  class="clearfix">
               <span>位置信息</span>
-              <i @click="actClick('tres')"
+              <i @click="placeClick('place')"
                  class="el-collapse-item__arrow el-icon-arrow-right"
                  :class="{'is-active':isActive}"
                  style="float: right; padding: 3px 0"></i>
             </div>
-            <div id="tres">
+            <div id="place">
               <el-row :gutter="15">
                 <el-col :span="8">
                   <el-form-item prop="jfjggx"
@@ -851,12 +851,12 @@
             <div slot="header"
                  class="clearfix">
               <span>维保信息</span>
-              <i @click="waClick('wa')"
+              <i @click="wbClick('wb')"
                  class="el-collapse-item__arrow el-icon-arrow-right"
                  :class="{'is-active':waIsActive}"
                  style="float: right; padding: 3px 0"></i>
             </div>
-            <div id="wa">
+            <div id="wb">
               <el-row :gutter="15">
                 <el-col :span="8">
                   <el-form-item prop="wasmzqzt"
@@ -940,6 +940,9 @@ export default {
       },
       isActive: true,
       waIsActive: true,
+      deploy: true,
+      place: true,
+      wb: true,
       isEdit: false
     }
   },
@@ -987,7 +990,6 @@ export default {
     },
     handleClose () {
       this.drawer = false
-      this.isActive = true
       this.isEdit = false
       this.inputForm = {}
     },
@@ -1011,6 +1013,36 @@ export default {
         this.waIsActive = false
       }
     },
+    deployClick (val) {
+      let dv = document.getElementById(val)
+      if (dv.className === 'show') {
+        dv.removeAttribute('class')
+        this.deploy = true
+      } else {
+        dv.setAttribute('class', 'show')
+        this.deploy = false
+      }
+    },
+    placeClick (val) {
+      let dv = document.getElementById(val)
+      if (dv.className === 'show') {
+        dv.removeAttribute('class')
+        this.place = true
+      } else {
+        dv.setAttribute('class', 'show')
+        this.place = false
+      }
+    },
+    wbClick (val) {
+      let dv = document.getElementById(val)
+      if (dv.className === 'show') {
+        dv.removeAttribute('class')
+        this.wb = true
+      } else {
+        dv.setAttribute('class', 'show')
+        this.wb = false
+      }
+    },
     load () { },
     editClick () {
       this.isEdit = true
@@ -1031,7 +1063,6 @@ export default {
         if (data && data.success) {
           this.$emit('refreshResouceList')
           this.drawer = false
-          this.isActive = true
           this.isEdit = false
           this.inputForm = {}
         }
@@ -1039,7 +1070,6 @@ export default {
     },
     closeClick () {
       this.drawer = false
-      this.isActive = true
       this.isEdit = false
       this.inputForm = {}
     }
@@ -1085,7 +1115,7 @@ export default {
 .show {
   display: none;
 }
-p {
+.el-drawer p {
   padding: 0px;
   margin: 0px;
   font-size: 14px;
@@ -1108,7 +1138,7 @@ p {
 .btnav button {
   margin: -10px 30px;
 }
-.el-col {
+.el-drawer .el-col {
   margin-bottom: -20px;
 }
 </style>
