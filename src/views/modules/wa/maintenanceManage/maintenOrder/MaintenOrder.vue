@@ -1,24 +1,18 @@
 <template>
   <div>
-      <el-row style="margin:10px">
-        <el-col :span="24">
-          <!-- <el-card class="box-card" shadow="never" style="margin:10px" :body-style="{ padding: '10px 20px 0px 20px'}"> -->
-            <el-row :gutter="10">
-              <el-col :xs="12" :sm="10" :md="8" :lg="6" :xl="4" v-for="data in dataListTj" :key="data.id">
-                  <el-card class="box-card" :body-style="{ padding: '0px'}" style="margin-bottom:10px">
-                      <div class="actCard" style="disply:flex">
-                        <div :style="'height: 80px;float:left;width: 80px;text-align: center;line-height: 75px;background: '+data.color+';'">
-                          <i :class="data.icon" style="transform: scale(1.8)"></i>
-                        </div>
-                        <div style="height: 80px;flex:1;text-align: center;line-height: 40px;rgba(106, 146, 103, 0.1);">
-                          <div><span style="font-size:18px">{{data.name}}</span></div>
-                          <div><span class="numStyle">{{data.num}}</span></div>
-                        </div>
-                      </div>
-                  </el-card>
-              </el-col>
-            </el-row>
-          <!-- </el-card> -->
+      <el-row style="margin:10px" :gutter="10">
+        <el-col :xs="12" :sm="10" :md="8" :lg="6" :xl="4" v-for="data in dataListTj" :key="data.id">
+          <el-card class="box-card" :body-style="{ padding: '0px'}" style="margin-bottom:10px">
+            <div class="actCard" style="disply:flex">
+              <div :style="'height: 80px;float:left;width: 80px;text-align: center;line-height: 75px;background: '+data.color+';'">
+                <i :class="data.icon" style="transform: scale(1.8)"></i>
+              </div>
+              <div style="height: 80px;flex:1;text-align: center;line-height: 40px;rgba(106, 146, 103, 0.1);">
+                <div><span style="font-size:18px">{{data.name}}</span></div>
+                <div><span class="numStyle">{{data.num}}</span></div>
+              </div>
+            </div>
+          </el-card>
         </el-col>
       </el-row>
       <el-row :gutter="12"  style="disply:flex;margin: 20px 10px 10px;">

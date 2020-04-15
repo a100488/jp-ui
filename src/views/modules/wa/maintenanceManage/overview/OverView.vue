@@ -1,24 +1,18 @@
 <template>
   <div>
-      <el-row>
-        <el-col :span="24">
-          <el-card class="box-card" shadow="hover" style="margin:10px" :body-style="{ padding: '10px 20px 0px 20px'}">
-            <el-row :gutter="10">
-              <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="4" v-for="data in dataList2" :key="data.id">
-                  <el-card class="box-card" :body-style="{ padding: '0px'}" style="margin-bottom:10px">
-                      <div class="actCard" style="disply:flex">
-                        <div :style="'height: 75px;float:left;width: 75px;text-align: center;line-height: 75px;background: '+data.color+';'">
-                          <i :class="data.icon" style="transform: scale(1.8)"></i>
-                        </div>
-                        <div style="height: 75px;flex:1;text-align: center;line-height: 35px;rgba(106, 146, 103, 0.1);">
-                          <div><span>{{data.name}}</span></div>
-                          <div><span class="numStyle">{{data.num}}</span></div>
-                        </div>
-                      </div>
-                  </el-card>
-              </el-col>
-            </el-row>
-          </el-card>
+      <el-row :gutter="10" style="margin:10px">
+        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="4" v-for="data in dataList2" :key="data.id">
+            <el-card class="box-card" :body-style="{ padding: '0px'}" style="margin-bottom:10px">
+                <div class="actCard" style="disply:flex">
+                  <div :style="'height: 75px;float:left;width: 75px;text-align: center;line-height: 75px;background: '+data.color+';'">
+                    <i :class="data.icon" style="transform: scale(1.8)"></i>
+                  </div>
+                  <div style="height: 75px;flex:1;text-align: center;line-height: 35px;rgba(106, 146, 103, 0.1);">
+                    <div><span>{{data.name}}</span></div>
+                    <div><span class="numStyle">{{data.num}}</span></div>
+                  </div>
+                </div>
+            </el-card>
         </el-col>
       </el-row>
       <el-row >
