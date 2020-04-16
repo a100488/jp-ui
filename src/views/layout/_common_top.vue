@@ -12,13 +12,14 @@
       <h1 class="jp-navbar__brand" @click="$router.push({ name: 'home' })">
         <a class="jp-navbar__brand-lg" href="javascript:;"> <img src='../../assets/img/jh.png' height="40px" width="40px"/> 
         <!-- {{productName}} -->
+        网安总队运维系统
         </a>
         <a class="jp-navbar__brand-mini" href="javascript:;">
           <img src='../../assets/img/jh.png' height="40px" width="40px"/>
         </a>
       </h1>
     </div>
-    <div style="height: 60px;width: 58px;">
+    <!-- <div style="height: 60px;width: 58px;">
       <el-menu
         class="jp-navbar__menu"
         mode="horizontal">
@@ -26,10 +27,10 @@
           <i  :class="sidebarFold ? 'fa fa-reorder':'fa fa-long-arrow-left'"></i>
         </el-menu-item>
       </el-menu>
-    </div>
+    </div> -->
     <!-- class="jp-navbar__body clearfix" -->
-    <div  style="height: 60px;flex:1;text-align: center;">
-      <h3 style="color: #fff">网安总队智能运维系统</h3>
+    <div  style="height: 60px;flex:1;text-align: left;">
+      <h3 style="color: #fff"></h3>
     </div>
       <!-- <el-menu class="jp-navbar__menu" style="" :default-active="topMenuActiveIndex" ref="topMenu"  mode="horizontal"> -->
         <!-- <el-menu-item  class="el_menu_item" v-for="menu in topMenuList"
