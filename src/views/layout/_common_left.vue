@@ -1,6 +1,6 @@
 <template>
   <aside class="jp-sidebar" :style="sidebarLayoutSkin === '5' || sidebarLayoutSkin === '9' ?`background:${defaultTheme}`: ''" :class="'jp-sidebar--' + sidebarLayoutSkin">
-    <div class="jp-sidebar__inner" style="overflow-x: hidden;bottom: 30px;">
+    <div class="jp-sidebar__inner" style="overflow-x: hidden;padding-top:20px;bottom: 30px;">
       <el-menu unique-opened
                :default-active="menuActiveName || 'home'"
                :collapse="sidebarFold"
@@ -15,10 +15,10 @@
         </sub-menu>
       </el-menu>
     </div>
-    <div >
-      <el-menu class="jp-navbar__menu" style="position: absolute;border: none;" :class="sidebarFold ? 'whicoll':'whi'">
+    <div>
+      <el-menu id="low" class="jp-navbar__menu" style="position: absolute;border: none;" :class="sidebarFold ? 'whicoll':'whi'">
         <el-menu-item style="height: 30px;line-height: 30px;" class="jp-navbar__switch" :collapse="sidebarFold"  @click="sidebarFold = !sidebarFold">
-          <i  :class="sidebarFold ? 'fa fa-reorder':'fa fa-long-arrow-left'"></i>
+          <i :class="sidebarFold ? 'fa fa-reorder':'fa fa-long-arrow-left'"></i>
         </el-menu-item>
       </el-menu>
     </div>
@@ -27,7 +27,7 @@
 <style>
 .jp-menu-category {
     padding: 0 20px;
-    margin-top: 20px;
+    margin-top: 30px;
     font-size: 12px;
     line-height: 38px;
     color: #76838f;
@@ -35,17 +35,28 @@
     -webkit-transition: all .25s,font .1s .15s,color .1s .15s;
     transition: all .25s,font .1s .15s,color .1s .15s;
 }
+#low .el-menu-item {
+  background-color: rgb(42, 43, 49) !important;
+}
+
 .whi {
   height: 30px;
   width: 230px;
   text-align:center;
-  bottom:0px
+  line-height: 30px;
+  bottom:0px;
+  -webkit-transition: all .25s,font .1s .15s,color .1s .15s;
+  transition: all .25s,font .1s .15s,color .1s .15s;
+
 }
 .whicoll {
   height: 30px;
+  line-height: 30px;
   width: 64px;
   text-align:center;
-  bottom:0px
+  bottom:0px;
+  -webkit-transition: all .2s,font .1s .15s,color .1s .15s;
+  transition: all .25s,font .1s .15s,color .1s .15s;
 }
 </style>
 
