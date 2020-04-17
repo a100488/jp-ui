@@ -16,12 +16,12 @@
         </el-col>
       </el-row>
       <el-row >
-        <el-col :span="24">
+        <el-col :span="18">
           <el-card :body-style="{ 'padding': '10px 20px 0px 20px','margin': '0px' }" style="margin:5px 10px">
             <div slot="header">
               <span>工单趋势</span>
               <el-date-picker
-                v-model="searchForm.inDate"
+                v-model="queryDate"
                 style="float: right; margin-top: -6px"
                 type="daterange"
                 size="small"
@@ -30,18 +30,25 @@
                 unlink-panels
                 range-separator="至"
                 start-placeholder="开始日期"
-                end-placeholder="结束日期">
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions"
+                :change="query()">
               </el-date-picker>
               <span style="float: right;">选择统计时间段：</span>
             </div>
-            <div style="">
-              <v-chart ref="chart1" :options="option" style="width: 100%;height: 380px"></v-chart>
+            <div>
+              <v-chart ref="chart1" :options="option" style="width: 100%;height: 370px"></v-chart>
             </div>
+          </el-card>
+        </el-col>
+        <el-col  :span="6" style="padding:10px">
+          <el-card :body-style="{ 'padding': '10px 20px 0px 20px','margin': '0px' }">
+            <v-chart ref="chart3" :options="pieOption1" style="width: 100%" auto-resize></v-chart>
           </el-card>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="18" style="margin:10px">
+        <el-col :span="18" style="padding:10px">
           <el-table
             border
             :data="clrSumList"
@@ -76,8 +83,10 @@
             </el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="5" style="margin:10px">
-          <v-chart ref="chart2" :options="pieOption" style="width: 100%" auto-resize></v-chart>
+        <el-col :span="6" style="padding:10px">
+          <el-card :body-style="{ 'padding': '10px 20px 0px 20px','margin': '0px' }">
+            <v-chart ref="chart2" :options="pieOption" style="width: 100%" auto-resize></v-chart>
+          </el-card>
         </el-col>
       </el-row>
       <!-- 查看进度 弹窗 -->
@@ -96,22 +105,41 @@
   export default {
     data () {
       return {
-        searchForm: {
-          tableDta: [],
-          tuser: {
-            id: ''
-          },
-          name: '',
-          sex: '',
-          inDate: ''
-        },
+        queryDate: [],
         clrSumList: [],
-        tabData: {
-          partInList: [],
-          allList: []
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }]
         },
         visible: false,
         pieOption: {
+          title: {
+            text: '按状态统计',
+            left: 'right'
+          },
           tooltip: {
             trigger: 'item',
             formatter: '{a} <br/>{b}: {c} ({d}%)'
@@ -121,6 +149,7 @@
             left: 10,
             data: ['已完成', '未完成']
           },
+          color: [ 'rgba(106, 159, 224, 0.8)', 'rgba(60, 215, 104, 0.5)', 'rgba(171, 117, 220, 0.8)', 'rgba(87, 194, 226, 0.8)', '#FF0000', '#FE8463' ],
           series: [
             {
               name: '工单',
@@ -142,28 +171,56 @@
               },
               data: [
                 {
-                  value: 335,
-                  itemStyle: {
-                    color: 'rgba(70, 228, 177, 0.85)'
-                  },
+                  value: 35,
+                  // itemStyle: {
+                  //   color: 'rgba(70, 228, 177, 0.85)'
+                  // },
                   name: '已完成'},
                 {value: 30, name: '未完成'}
               ]
             }
           ]
         },
-        option: {
+        pieOption1: {
           title: {
-            text: '',
-            left: 'center'
+            text: '按类型统计',
+            left: 'right'
           },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+          },
+          legend: {
+            orient: 'vertical',
+            left: 10,
+            data: []
+          },
+          color: [ 'rgba(106, 159, 224, 0.8)', 'rgba(60, 215, 104, 0.5)', 'rgba(171, 117, 220, 0.8)', 'rgba(87, 194, 226, 0.8)', '#FF0000', '#FE8463' ],
+          series: [
+            {
+              name: '工单',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '60%'],
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              },
+              data: []
+            }
+          ]
+        },
+        option: {
           tooltip: {
             trigger: 'item',
             formatter: '{a} <br/>{b} : {c}'
           },
           legend: {
             left: 'left',
-            data: ['工单创建', '工单完成', '工单逾期']
+            data: ['新建工单数', '完成工单数', '逾期工单数']
           },
           xAxis: {
             type: 'category',
@@ -184,7 +241,7 @@
           },
           series: [
             {
-              name: '工单创建',
+              name: '新建工单数',
               type: 'line',
               smooth: true,
               areaStyle: {
@@ -204,7 +261,7 @@
               data: [1, 3, 9, 7, 8, 4, 4, 3, 9]
             },
             {
-              name: '工单完成',
+              name: '完成工单数',
               type: 'line',
               smooth: true,
               itemStyle: {
@@ -218,7 +275,7 @@
               data: [1, 2, 4, 8, 6, 2, 6, 1, 0]
             },
             {
-              name: '工单逾期',
+              name: '逾期工单数',
               type: 'line',
               smooth: true,
               itemStyle: {
@@ -234,6 +291,7 @@
           ]
         },
         dataList2: [],
+        dataListType: [],
         pageNo: 1,
         pageSize: 10,
         total: 0,
@@ -247,17 +305,62 @@
     components: {
       'v-chart': ECharts
     },
-    activated () {
-      // this.refreshType()
-      // this.refreshToDoList()
-      this.initEcharts()
-      this.refreshSumList()
-      this.refreshClrSumList(this.random(0, 8))
+    created () {
+      const end = new Date(new Date().toLocaleDateString())
+      const start = new Date(new Date().toLocaleDateString())
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      this.queryDate = [this.formatDateTime(start), this.formatDateTime(end)]
     },
-
+    activated () {
+      this.initEcharts()
+      this.query()
+      this.querybytype()
+      this.refreshSumList()
+      // this.refreshClrSumList(this.random(0, 8))
+    },
+    mounted () {
+      // 根据屏幕大小改变，重新加载chart
+      window.addEventListener('resize', () => {
+        this.$refs.chart1.resize()
+        this.$refs.chart2.resize()
+        this.$refs.chart3.resize()
+      })
+      // this.query()
+    },
     methods: {
       random (lower, upper) {
         return Math.floor(Math.random() * (upper - lower + 1)) + lower
+      },
+      // chart1 data
+      query () {
+        this.$http({
+          url: '/wa/count/querydate',
+          method: 'get',
+          params: {
+            startDate: this.queryDate[0],
+            endDate: this.queryDate[1]
+          }
+        }).then(({data}) => {
+          if (data && data.success) {
+            console.log(data.data)
+            this.$refs.chart1.options.series[0].data = data.data.create // 创建
+            this.$refs.chart1.options.series[1].data = data.data.complete // 完成
+            this.$refs.chart1.options.series[2].data = data.data.overdu // 逾期
+            this.$refs.chart1.options.xAxis.data = data.data.dates //
+          }
+        })
+      },
+      querybytype () {
+        this.$http({
+          url: '/wa/count/querybytype',
+          method: 'get'
+        }).then(({data}) => {
+          if (data && data.success) {
+            console.log(data.data)
+            this.$refs.chart3.options.series[0].data = data.data.valueList // 逾期
+            this.$refs.chart3.options.legend.data = data.data.name //
+          }
+        })
       },
       refreshClrSumList (m) {
         this.clrSumList = []
@@ -272,74 +375,30 @@
         }
       },
       refreshSumList () {
-        this.dataList2 = [{'name': '今日新增', 'num': this.random(0, 8), 'color': '#3883F8', 'icon': 'el-icon-circle-plus-outline'},
-        {'name': '本周待处理', 'num': this.random(0, 8), 'color': '#FFCD3D', 'icon': 'el-icon-time'},
-        {'name': '本周逾期数', 'num': this.random(0, 8), 'color': '#FF4848', 'icon': 'fa fa-frown-o'},
-        {'name': '工单解决率', 'num': (this.random(10, 80) + '%'), 'color': '#3CD768', 'icon': 'el-icon-circle-check'}]
-      },
-      // 获取工单类型列表
-      refreshType () {
-        this.loading = true
+        this.dataList2 = [
+          {'name': '今日新增', 'num': 0, 'color': '#3883F8', 'icon': 'el-icon-circle-plus-outline'},
+          {'name': '待处理总数', 'num': 0, 'color': '#FFCD3D', 'icon': 'el-icon-time'},
+          // {'name': '逾期总数', 'num': '开发中', 'color': '#FF4848', 'icon': 'fa fa-frown-o'},
+          {'name': '工单解决率', 'num': (0 + '%'), 'color': '#3CD768', 'icon': 'el-icon-circle-check'}]
         this.$http({
-          url: '/flowable/process/list',
+          url: '/wa/count/sum',
           method: 'get',
           params: {
-            'pageNo': this.pageNo,
-            'pageSize': this.pageSize,
-            ...this.searchForm
           }
         }).then(({data}) => {
           if (data && data.success) {
-            this.dataList2 = data.page.list
-            // this.total = data.page.count
-            this.loading = false
+            this.dataList2[1].num = data.data.bzwwc
+            this.dataList2[0].num = data.data.jrxj
+            this.dataList2[3].num = (data.data.finished / (data.data.unfinished + data.data.finished) * 100).toFixed(0) + '%'
+            this.$refs.chart2.options.series[0].data = [
+              {name: '已完成', value: data.data.finished},
+              {name: '未完成', value: data.data.unfinished}]
           }
         })
       },
-      // 代办工单列表
-      refreshToDoList () {
-        this.loading = true
-        this.$http({
-          url: '/flowable/task/todo',
-          method: 'get',
-          params: {
-            'pageNo': this.pageNo,
-            'pageSize': this.pageSize,
-            ...this.searchForm
-          }
-        }).then(({data}) => {
-          if (data && data.success) {
-            this.tabData.todoList = data.page.list
-            this.total = data.page.count
-            console.log(data.page.list)
-            this.loading = false
-          }
-        })
-      },
-      // 参与数据列表
-      refreshPartList () {
-        this.loading = true
-        this.$http({
-          url: '/flowable/task/historic/',
-          method: 'get',
-          params: {
-            'pageNo': this.pageNo,
-            'pageSize': this.pageSize,
-            ...this.searchForm
-          }
-        }).then(({data}) => {
-          if (data && data.success) {
-            this.tabData.partInList = data.page.list
-            // this.total = data.page.count
-            this.loading = false
-          }
-        })
-      },
+
       initEcharts () {
         console.log(this.$refs)
-        this.option.series[0].data = [5, 4, 6, 4, 8, 5, 4, 3, 1] // 创建
-        this.option.series[1].data = [2, 3, 4, 3, 4, 3, 6, 2, 3] // 完成
-        this.option.series[2].data = [1, 2, 1, 2, 1, 2, 0, 0, 0] // 逾期
         this.$refs.chart1.options.series[2].areaStyle.normal.color = new ECharts.graphic.LinearGradient(0, 0, 0, 1, [{
           offset: 0,
           color: 'rgba(255, 72, 72, 0.5)'
@@ -354,6 +413,9 @@
           offset: 1,
           color: 'rgba(60, 215, 104, 0.00)'
         }])
+        // this.$refs.chart3.options.legend.data = ['设备机房出入申请单', '人员机房出入申请', '申领新设备申请表', '系统升级工单']
+        // this.$refs.chart3.options.series[0].data = [{value: '8', name: '设备机房出入申请单'},
+        // {value: '5', name: '人员机房出入申请'}, {value: '2', name: '申领新设备申请表'}, {value: '4', name: '系统升级工单'}]
       },
       exportExcel () {
         this.$utils.download('/test/onetomany/testDataMainForm/export')
@@ -361,6 +423,20 @@
       resetSearch () {
         this.$refs.searchForm.resetFields()
         // this.refreshList()
+      },
+      formatDateTime (date) {
+        var y = date.getFullYear()
+        var m = date.getMonth() + 1
+        m = m < 10 ? ('0' + m) : m
+        var d = date.getDate()
+        d = d < 10 ? ('0' + d) : d
+        var h = date.getHours()
+        h = h < 10 ? ('0' + h) : h
+        var minute = date.getMinutes()
+        minute = minute < 10 ? ('0' + minute) : minute
+        var second = date.getSeconds()
+        second = second < 10 ? ('0' + second) : second
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
       }
     }
   }

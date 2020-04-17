@@ -35,6 +35,9 @@ const mainRoutes = {
     {path: '/maintenanceManage/overview', component: _import('modules/wa/maintenanceManage/overview/OverView'), name: 'order-manage-view', meta: {title: '工单总览'}},
     {path: '/wa/task/TaskForm', component: _import('modules/wa/maintenanceManage/maintenOrder/TaskForm'), name: 'task-form', meta: {title: '流程表单'}},
     {path: '/wa/task/TaskFormDetail', component: _import('modules/wa/maintenanceManage/maintenOrder/TaskFormDetail'), name: 'wa-form-detail', meta: {title: '流程表单详情'}},
+    {path: '/maintenanceManage/report/order', component: _import('modules/wa/maintenanceManage/report/OrderReport'), name: 'order-report-order', meta: {title: '工单综合统计报表'}},
+    {path: '/maintenanceManage/report/personal', component: _import('modules/wa/maintenanceManage/report/PersonalReport'), name: 'order-report-personal', meta: {title: '个人工单统计报表'}},
+
     {path: '/maintenanceManage/notice', component: _import('modules/wa/maintenanceManage/notice/Notice'), name: 'order-manage-notice', meta: {title: '通知公告'}},
     {path: '/assetManage/overview', component: _import('modules/wa/AssetManage/overview/OverView'), name: 'asset-manage-view', meta: {title: '资产总览'}},
     {path: '/assetManage/export', component: _import('modules/wa/AssetManage/export/ResourceExport'), name: 'asset-manage-export', meta: {title: '资产导入'}},

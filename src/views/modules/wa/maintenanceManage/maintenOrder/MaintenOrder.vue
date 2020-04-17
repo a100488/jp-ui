@@ -21,13 +21,9 @@
           width="500"
           trigger="click">
             <template v-for="data in dataList2">
-              <!-- <el-button-group  :key="data.id"> -->
-                <!-- <el-card v-if="data.id.substring(0,2) === 'WA'" class="box-card"  style="width: 180px;text-align: center;margin-bottom:10px"> -->
-                  <el-col :span="12"  :key="data.id" style="text-align: center;">
-                    <el-button round  title="发起流程" style="margin:5px;font-size:18px;width: 200px;" v-if="data.id.substring(0,2) === 'WA'" size="medium"  type="primary" @click="start(data)">{{data.name}}</el-button>
-                  </el-col>
-                <!-- </el-card> -->
-              <!-- </el-button-group> -->
+              <el-col :span="12"  :key="data.id" style="text-align: center;">
+                <el-button round  title="发起流程" style="margin:5px;font-size:18px;width: 200px;" v-if="data.id.substring(0,2) === 'WA'" size="medium"  type="primary" @click="start(data)">{{data.name}}</el-button>
+              </el-col>
             </template>
             <el-button type="primary" size="medium" style="font-size:16px;" slot="reference">创建工单</el-button>
           </el-popover>
@@ -71,60 +67,37 @@
         <div v-show="isSearchCollapse">
         <el-form :inline="true"  label-width="120px" label-position="right" label-suffix="：" class="gd-query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
               <!-- 搜索框-->
-          <!-- <el-row style="display:flex">
-            <el-col :xs="24" :sm="16" :md="10" :lg="8" :xl="6" > -->
-              <el-form-item label="创单人" prop="vars.userName">
-                  <!-- <user-select :limit='2' size="small" :value="searchForm.vars.userName" @getValue='(value) => {searchForm.vars.userName=value}'></user-select> -->
-                  <el-input size="small" v-model="vars[0].value" placeholder="请输入创单人" clearable></el-input>
-              </el-form-item>
-            <!-- </el-col>
-            <el-col :xs="24" :sm="16" :md="10" :lg="8" :xl="6"> -->
-              <!-- <el-form-item label="工单标题" prop="title">
-                  <el-input size="small" v-model="searchForm.title" placeholder="请输入工单标题" clearable></el-input>
-              </el-form-item> -->
-            <!-- </el-col>
-            <el-col :xs="24" :sm="16" :md="10" :lg="8" :xl="6"> -->
-              <el-form-item prop="sex" label="流程名称">
-                <el-select v-model="searchForm.procDefKey" size="small" clearable placeholder="请选择">
-                    <el-option
-                      v-for="item in dataList2"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.name">
-                    </el-option>
-                  </el-select>
-                  <!-- <el-input size="small" v-model="searchForm.procDefKey" placeholder="请输入流程名称" clearable></el-input> -->
-              </el-form-item>
-            <!-- </el-col>
-            <el-col :xs="24" :sm="16" :md="10" :lg="8" :xl="6"> -->
-              <el-form-item prop="sex1" label="流程状态">
-                <el-input size="small" v-model="searchForm.status" placeholder="请输入流程状态" clearable></el-input>
-              </el-form-item>
-            <!-- </el-col>
-          </el-row>
-          <el-row>
-            <el-col :xs="24" :sm="20" :md="16" :lg="12" :xl="8" > -->
-              <el-form-item prop="searchDates" label="创建时间">
-                <el-date-picker
-                  v-model="searchDates"
-                  type="daterange"
-                  size="small"
-                  align="right"
-                  value-format="yyyy-MM-dd hh:mm:ss"
-                  unlink-panels
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker>
-              </el-form-item>
-            <!-- </el-col>
-          </el-row> -->
-          <!-- <el-row style="text-align:center">
-            <el-form-item>
-              <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-              <el-button @click="resetSearch()" size="small">重置</el-button>
-            </el-form-item>
-          </el-row> -->
+          <el-form-item label="创单人" prop="vars.userName">
+            <el-input size="small" v-model="vars[0].value" placeholder="请输入创单人" clearable></el-input>
+          </el-form-item>
+          <el-form-item prop="sex" label="流程名称">
+            <el-select v-model="searchForm.procDefKey" size="small" clearable placeholder="请选择">
+              <template v-for="item in dataList2">
+                <el-option
+                  v-if="item.id.substring(0,2) === 'WA'"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
+                </el-option>
+              </template>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="sex1" label="流程状态">
+            <el-input size="small" v-model="searchForm.status" placeholder="请输入流程状态" clearable></el-input>
+          </el-form-item>
+          <el-form-item prop="searchDates" label="创建时间">
+            <el-date-picker
+              v-model="searchDates"
+              type="daterange"
+              size="small"
+              align="right"
+              value-format="yyyy-MM-dd hh:mm:ss"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
         </el-form>
         </div>
       </el-collapse-transition>
