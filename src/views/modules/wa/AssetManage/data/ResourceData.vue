@@ -104,6 +104,8 @@
               </el-form-item>
             </el-col>
             <el-form-item style="float: right;margin: 5px 40px;">
+              <el-button size="small"
+                         @click="importClick()">导入</el-button>
               <el-button size="small">导出</el-button>
               <el-button size="small"
                          @click="resetForm()">重置</el-button>
@@ -166,12 +168,16 @@
                          :page-sizes="[5, 10, 50, 100]"
                          :page-size="pageSize"
                          :total="total"
-                         layout="total, sizes, prev, pager, next, jumper">
+                         layout="total, sizes, prev, pager, next, jumper"
+                         v-loading="loading">
           </el-pagination>
         </el-row>
         <resources-dialog ref="resourcesDialog"
                           :attrs="attrs"
                           @refreshResouceList="refreshResouceList"></resources-dialog>
+        <resource-upload ref="resourceUpload"
+                         :classCode="classCode"></resource-upload>
+
       </el-col>
       <!-- 存储设备 -->
       <el-col :span="20"
@@ -1749,6 +1755,8 @@
 import commom from '@/utils/common'
 import resourcesDialog from './ResourceDialog'
 import terminalDialog from './TerminalDialog'
+import resourceUpload from './ResourceUpload'
+
 export default {
   data () {
     return {
@@ -1759,6 +1767,7 @@ export default {
       total: 0,
       pageSize: 10,
       pageNo: 1,
+      loading: false,
       deviceName: 'pc服务器',
       searchForm: {
         name: '',
@@ -1906,11 +1915,15 @@ export default {
   },
   components: {
     resourcesDialog,
-    terminalDialog
+    terminalDialog,
+    resourceUpload
   },
   activated () {
   },
   methods: {
+    importClick () {
+      this.$refs.resourceUpload.init()
+    },
     getAll () {
       // this.loading = true
       // this.$http({
