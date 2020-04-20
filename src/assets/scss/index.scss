@@ -92,6 +92,7 @@ img {
   }
   .jp-sidebar,
   .jp-sidebar__inner {
+    padding-top: 30px;
     overflow: initial;
   }
   .jp-content--tabs > .el-tabs > .el-tabs__header {
@@ -182,7 +183,7 @@ img {
           color: #515a6e;
         }
       }
-      
+
     }
   }
   &__header {
@@ -560,7 +561,7 @@ img {
   .el-icon-star-on{
     color:#67c23a !important;
   }
-} 
+}
 .operation-container {
 .cell {
   padding: 10px !important;
@@ -962,3 +963,4 @@ span{
 .el-table .el-table__row .el-link{
   display: contents;
 }
+

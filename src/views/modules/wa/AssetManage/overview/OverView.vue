@@ -2,29 +2,82 @@
   <div>
     <el-row>
       <el-col :span="14">
-        <el-card class="box-card" style="margin:5px">
-          <v-chart ref="chart1" :options="optionzl" style="width: 100%;height: 510px;" auto-resize></v-chart>
-        </el-card>
+        <el-row>
+          <el-col :span="24">
+            <el-card class="box-card" style="margin:5px">
+              <v-chart ref="chart1" :options="optionzl" style="width: 100%;height: 260px;" auto-resize></v-chart>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-card :body-style="{ 'padding': '5px','margin': '5px' }" style="margin:5px">
+              <v-chart ref="chart2" :options="optionfx" style="width: 100%;height: 280px" auto-resize></v-chart>
+            </el-card>
+          </el-col>
+        </el-row>
       </el-col>
       <el-col :span="10">
         <el-row>
           <el-col :span="24">
             <el-card :body-style="{ 'padding': '5px','margin': '5px' }" style="margin:5px">
-              <v-chart ref="chart2" :options="optionfx" style="width: 100%;height: 250px" auto-resize></v-chart>
+              <v-chart ref="chart3" :options="optiontj" style="width: 100%;height: 280px" auto-resize></v-chart>
             </el-card>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-card :body-style="{ 'padding': '5px','margin': '5px' }" style="margin:5px">
-              <v-chart ref="chart3" :options="optiontj" style="width: 100%;height: 250px" auto-resize></v-chart>
-            </el-card>
+          <el-col :span="24" style="padding: 5px;margin: 5px">
+            <el-table
+              border
+              :data="clrSumList"
+              style="width: 100%;	box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);-webkit-box-shadow:0 2px 12px 0 rgba(0,0,0,.1);">
+              <el-table-column
+                prop="jf"
+                header-align="center"
+                align="center"
+                show-overflow-tooltip
+                label="机房">
+              </el-table-column>
+              <el-table-column
+                prop="todo"
+                header-align="center"
+                align="center"
+                show-overflow-tooltip
+                label="机柜个数">
+              </el-table-column>
+              <el-table-column
+                prop="partin"
+                header-align="center"
+                align="center"
+                show-overflow-tooltip
+                label="网络设备">
+              </el-table-column>
+              <el-table-column
+                prop="overdue"
+                header-align="center"
+                align="center"
+                show-overflow-tooltip
+                label="服务器设备">
+              </el-table-column>
+              <el-table-column
+                prop="partin"
+                header-align="center"
+                align="center"
+                show-overflow-tooltip
+                label="安全设备">
+              </el-table-column>
+              <el-table-column
+                prop="overdue"
+                header-align="center"
+                align="center"
+                show-overflow-tooltip
+                label="其他设备">
+              </el-table-column>
+            </el-table>
           </el-col>
         </el-row>
       </el-col>
     </el-row>
-    <el-row style="margin:5px">
-      <el-col :span="14" style="padding-right:5px">
+    <el-row >
+      <el-col :span="24" style="padding:5px">
         <el-table
           border
           :data="clrSumList"
@@ -86,56 +139,6 @@
             label="其他终端">
           </el-table-column>
         </el-table>
-      </el-col>
-      <el-col :span="10" style="padding-left:5px">
-        <el-table
-          border
-          :data="clrSumList"
-          style="width: 100%;	box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);-webkit-box-shadow:0 2px 12px 0 rgba(0,0,0,.1);">
-          <el-table-column
-            prop="jf"
-            header-align="center"
-            align="center"
-            show-overflow-tooltip
-            label="机房">
-          </el-table-column>
-          <el-table-column
-            prop="todo"
-            header-align="center"
-            align="center"
-            show-overflow-tooltip
-            label="机柜个数">
-          </el-table-column>
-          <el-table-column
-            prop="partin"
-            header-align="center"
-            align="center"
-            show-overflow-tooltip
-            label="网络设备">
-          </el-table-column>
-          <el-table-column
-            prop="overdue"
-            header-align="center"
-            align="center"
-            show-overflow-tooltip
-            label="服务器设备">
-          </el-table-column>
-          <el-table-column
-            prop="partin"
-            header-align="center"
-            align="center"
-            show-overflow-tooltip
-            label="安全设备">
-          </el-table-column>
-          <el-table-column
-            prop="overdue"
-            header-align="center"
-            align="center"
-            show-overflow-tooltip
-            label="其他设备">
-          </el-table-column>
-        </el-table>
-
       </el-col>
     </el-row>
     <!-- 查看进度 弹窗 -->
@@ -229,7 +232,6 @@
               name: '总数',
               type: 'bar',
               smooth: true,
-              barWidth: 20,
               itemStyle: {
                 color: 'rgb(56, 171, 248)'
               },
@@ -252,22 +254,25 @@
           },
           legend: {
             left: 'left',
-            data: ['在保', '过保', '未知'],
-            top: '15%'
+            data: ['在保', '过保', '未知']
           },
           xAxis: {
             type: 'category',
             name: '',
             // boundaryGap: false,
             splitLine: {show: false},
-            axisLabel: {interval: 0, rotate: 40},
+            axisLabel: {
+              interval: 0,
+              formatter: function (value) {
+                return value.split('').join('\n')
+              }
+            },
             data: []
           },
           grid: {
             left: '3%',
             right: '4%',
             bottom: '1%',
-            top: '35%',
             containLabel: true
           },
           yAxis: {
@@ -279,6 +284,7 @@
               name: '在保',
               type: 'bar',
               smooth: true,
+              stack: '在保',
               areaStyle: {
                 normal: {}
               },
@@ -291,6 +297,7 @@
               name: '过保',
               type: 'bar',
               smooth: true,
+              stack: '在保',
               itemStyle: {
                 color: 'rgb(255, 72, 72)'
               },
@@ -301,6 +308,7 @@
               name: '未知',
               type: 'bar',
               smooth: true,
+              stack: '在保',
               itemStyle: {
                 color: 'rgb(170, 177, 182, 0.9)'
               },
